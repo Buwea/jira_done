@@ -21,7 +21,7 @@ $fetchUser = Unirest\Request::get(
 $user = $fetchUser->body[0];
 
 $body = [
-    "jql" => 'type != epik AND project in (PR, SERWIS, WD, ZD) AND status in ("Do potwierdzenia", "DO WGRANIA", Done, "do testowania", "Do aktualizacji - krytyczne") AND (assignee in (currentUser()) OR "Osoba sprawdzajaca[People]" in (currentUser()) AND status was "code review" after -20d) AND status changed after -5d ORDER BY due ASC'
+    "jql" => 'type != epik AND project in (PR, SERWIS, WD, ZD) AND status in ("Do potwierdzenia", "DO WGRANIA", Done, "do testowania", "Do aktualizacji - krytyczne") AND (assignee in (currentUser()) OR "Osoba sprawdzajaca[People]" in (currentUser()) AND status was "code review" after -1d) AND status changed after -1d ORDER BY due ASC'
 ];
 
 
@@ -88,14 +88,23 @@ $sheet->getStyle("A{$firstRowOfIssues}:{$letter}{$lastRow}")->getBorders()->getO
     Border::BORDER_MEDIUM
 );
 
+$filesystem = new \Symfony\Component\Filesystem\Filesystem();
+
 $writer = new Xlsx($spreadsheet);
 $directoryYear = "tasks/" . $now->format("Y");
-if (!mkdir($directoryYear) && !is_dir($directoryYear)) {
-    throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryYear));
+
+if (!$filesystem->exists($directoryYear)) {
+    $filesystem->mkdir($directoryYear);
+    if(!$filesystem->exists($directoryYear)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryYear));
+    }
 }
 $directoryMonth = $directoryYear . "/" . $now->format('m');
-if (!mkdir($directoryMonth) && !is_dir($directoryMonth)) {
-    throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryMonth));
+if (!$filesystem->exists($directoryMonth)) {
+    $filesystem->mkdir($directoryMonth);
+    if(!$filesystem->exists($directoryMonth)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryMonth));
+    }
 }
 
 $writer->save( $directoryMonth . '/' . $now->format('Y_m_d') . '_done.xlsx');

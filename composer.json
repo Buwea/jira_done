@@ -1,6 +1,7 @@
 {
     "require": {
         "mashape/unirest-php": "^3.0",
-        "phpoffice/phpspreadsheet": "^1.26"
+        "phpoffice/phpspreadsheet": "^1.26",
+        "symfony/filesystem": "^6.2"
     }
 }
