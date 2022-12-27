@@ -88,14 +88,23 @@ $sheet->getStyle("A{$firstRowOfIssues}:{$letter}{$lastRow}")->getBorders()->getO
     Border::BORDER_MEDIUM
 );
 
+$filesystem = new \Symfony\Component\Filesystem\Filesystem();
+
 $writer = new Xlsx($spreadsheet);
 $directoryYear = "tasks/" . $now->format("Y");
-if (!mkdir($directoryYear) && !is_dir($directoryYear)) {
-    throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryYear));
+
+if (!$filesystem->exists($directoryYear)) {
+    $filesystem->mkdir($directoryYear);
+    if(!$filesystem->exists($directoryYear)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryYear));
+    }
 }
 $directoryMonth = $directoryYear . "/" . $now->format('m');
-if (!mkdir($directoryMonth) && !is_dir($directoryMonth)) {
-    throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryMonth));
+if (!$filesystem->exists($directoryMonth)) {
+    $filesystem->mkdir($directoryMonth);
+    if(!$filesystem->exists($directoryMonth)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryMonth));
+    }
 }
 
 $writer->save( $directoryMonth . '/' . $now->format('Y_m_d') . '_done.xlsx');
