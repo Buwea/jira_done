@@ -79,7 +79,7 @@ foreach($issues as $issue) {
     $sheet->setCellValue($letter++ . $row, $issue->fields->assignee->displayName);
     $sheet->setCellValue($letter++ . $row, $issue->fields->duedate);
     $sheet->setCellValue($letter++ . $row, implode(', ', $issue->fields->labels));
-    $sheet->setCellValue($letter . $row, $issue->fields->parent->key);
+    $sheet->setCellValue($letter . $row, $issue->fields->parent->key ?? '');
 
     $row++;
 }
