@@ -21,7 +21,7 @@ $fetchUser = Unirest\Request::get(
 $user = $fetchUser->body[0];
 
 $body = [
-    "jql" => 'type != epik AND project in (PR, SERWIS, WD, ZD) AND status in ("Do potwierdzenia", "DO WGRANIA", Done, "do testowania", "Do aktualizacji - krytyczne") AND (assignee in (currentUser()) OR "Osoba sprawdzajaca[People]" in (currentUser()) AND status was "code review" after -1d) AND status changed after -1d ORDER BY due ASC'
+    "jql" => 'type != epik AND project in (PR, SERWIS, WD, ZDR) AND status in ("Do potwierdzenia", "DO WGRANIA", Done, "do testowania", "Do aktualizacji - krytyczne") AND (assignee in (currentUser()) OR "Osoba sprawdzajaca[People]" in (currentUser()) AND status was "code review" after -1d) AND status changed after -1d ORDER BY due ASC'
 ];
 
 
