@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 require_once "vendor/autoload.php";
-list($email, $token, $url) = require("config.php");
+[$email, $token, $url] = require("config.php");
 Unirest\Request::auth($email, $token);
 
 $headers = array(
@@ -91,7 +91,7 @@ $sheet->getStyle("A{$firstRowOfIssues}:{$letter}{$lastRow}")->getBorders()->getO
 $filesystem = new \Symfony\Component\Filesystem\Filesystem();
 
 $writer = new Xlsx($spreadsheet);
-$directoryYear = "tasks/" . $now->format("Y");
+$directoryYear = __DIR__."/tasks/" . $now->format("Y");
 
 if (!$filesystem->exists($directoryYear)) {
     $filesystem->mkdir($directoryYear);
@@ -107,4 +107,6 @@ if (!$filesystem->exists($directoryMonth)) {
     }
 }
 
-$writer->save( $directoryMonth . '/' . $now->format('Y_m_d') . '_done.xlsx');
+$fileName = $directoryMonth . '/' . $now->format('Y_m_d') . '_done.xlsx';
+
+$writer->save( $fileName);
