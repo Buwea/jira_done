@@ -91,32 +91,36 @@ foreach ($users as $u) {
     $filesystem = new \Symfony\Component\Filesystem\Filesystem();
 
     $writer = new Xlsx($spreadsheet);
+    $absoluteDirectoryYear = __DIR__."/tasks/".$now->format("Y");
     $directoryYear = "/tasks/".$now->format("Y");
 
-    if (!$filesystem->exists($directoryYear)) {
-        $filesystem->mkdir($directoryYear);
-        if(!$filesystem->exists($directoryYear)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryYear));
+    if (!$filesystem->exists($absoluteDirectoryYear)) {
+        $filesystem->mkdir($absoluteDirectoryYear);
+        if(!$filesystem->exists($absoluteDirectoryYear)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $absoluteDirectoryYear));
         }
     }
+    $absoluteDirectoryMonth = $absoluteDirectoryYear . "/" . $now->format('m');
     $directoryMonth = $directoryYear . "/" . $now->format('m');
-    if (!$filesystem->exists($directoryMonth)) {
-        $filesystem->mkdir($directoryMonth);
-        if(!$filesystem->exists($directoryMonth)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryMonth));
+    if (!$filesystem->exists($absoluteDirectoryMonth)) {
+        $filesystem->mkdir($absoluteDirectoryMonth);
+        if(!$filesystem->exists($absoluteDirectoryMonth)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $absoluteDirectoryMonth));
         }
     }
+    $absoluteDirectoryDay = $absoluteDirectoryMonth . "/" . $now->format('d');
     $directoryDay = $directoryMonth . "/" . $now->format('d');
-    if (!$filesystem->exists($directoryDay)) {
-        $filesystem->mkdir($directoryDay);
-        if(!$filesystem->exists($directoryDay)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directoryDay));
+    if (!$filesystem->exists($absoluteDirectoryDay)) {
+        $filesystem->mkdir($absoluteDirectoryDay);
+        if(!$filesystem->exists($absoluteDirectoryDay)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $absoluteDirectoryDay));
         }
     }
 
-    $fileName = __DIR__.$directoryDay . '/' .$u['name'].'_'.$now->format('Y_m_d') . '_done.xlsx';
+    $absoluteFileName = $absoluteDirectoryDay . '/' .$u['name'].'_'.$now->format('Y_m_d') . '_done.xlsx';
+    $fileName = $directoryDay . '/' .$u['name'].'_'.$now->format('Y_m_d') . '_done.xlsx';
 
-    $writer->save($fileName);
+    $writer->save($absoluteFileName);
 
     $files .= $siteUrl.$fileName."\n";
 }
