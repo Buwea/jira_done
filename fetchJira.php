@@ -65,7 +65,7 @@ foreach ($users as $u) {
         $sheet->setCellValue($letter++ . $row, $issue->fields->summary);
         $sheet->setCellValue($letter++ . $row, $issue->fields->status->name);
 
-        if ($user->accountId === $issue->fields->assignee->accountId) {
+        if ($u['id'] === $issue->fields->assignee->accountId) {
             if ($issue->fields->project->key === "SERWIS") {
                 $type = "SERWIS";
             } else {
