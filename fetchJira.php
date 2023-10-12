@@ -91,7 +91,7 @@ foreach ($users as $u) {
     $filesystem = new \Symfony\Component\Filesystem\Filesystem();
 
     $writer = new Xlsx($spreadsheet);
-    $directoryYear = __DIR__."/tasks/".$now->format("Y");
+    $directoryYear = "/tasks/".$now->format("Y");
 
     if (!$filesystem->exists($directoryYear)) {
         $filesystem->mkdir($directoryYear);
@@ -114,7 +114,7 @@ foreach ($users as $u) {
         }
     }
 
-    $fileName = $directoryDay . '/' .$u['name'].'_'.$now->format('Y_m_d') . '_done.xlsx';
+    $fileName = __DIR__.$directoryDay . '/' .$u['name'].'_'.$now->format('Y_m_d') . '_done.xlsx';
 
     $writer->save($fileName);
 
