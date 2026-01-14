@@ -26,7 +26,7 @@ $body = [
 
 
 $response = Unirest\Request::get(
-    "{$url}/rest/api/3/search/jql",
+    "{$url}/rest/api/3/search",
     $headers,
     $body
 );
