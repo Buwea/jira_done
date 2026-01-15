@@ -22,7 +22,8 @@ $user = $fetchUser->body[0];
 $files = '';
 foreach ($users as $u) {
     $body = [
-        "jql" => '((type != epik AND project in (SERWIS, WD, ZD, ER)) OR project in (PR, ZDR)) AND status in ("Do potwierdzenia", "DO WGRANIA", Done, "do testowania", "Do aktualizacji - krytyczne", "Gotowe do testowania", "code review") AND (assignee in ('.$u['id'].') OR "Osoba sprawdzajaca[People]" in ('.$u['id'].') AND status was "code review" after -1d) AND status changed after -1d ORDER BY due ASC'
+        "jql" => '((type != epik AND project in (SERWIS, WD, ZD, ER)) OR project in (PR, ZDR)) AND status in ("Do potwierdzenia", "DO WGRANIA", Done, "do testowania", "Do aktualizacji - krytyczne", "Gotowe do testowania", "code review") AND (assignee in ('.$u['id'].') OR "Osoba sprawdzajaca[People]" in ('.$u['id'].') AND status was "code review" after -1d) AND status changed after -1d ORDER BY due ASC',
+        'fields' => 'summary,status,assignee,duedate,labels,parent,project',
     ];
 
     $response = Unirest\Request::get(
